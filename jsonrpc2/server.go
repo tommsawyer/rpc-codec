@@ -169,6 +169,9 @@ func (c *serverCodec) ReadRequestHeader(r *rpc.Request) (err error) {
 		return err
 	}
 
+	requestID, _ := c.req.ID.MarshalJSON()
+	c.ctx = context.WithValue(c.ctx, "request_id", string(requestID))
+
 	r.ServiceMethod = c.req.Method
 
 	// JSON request id can be any JSON value;
